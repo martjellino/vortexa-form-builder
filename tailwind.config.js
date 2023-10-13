@@ -7,7 +7,12 @@ module.exports = {
     './node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#232323',
+        secondary: '#F8F5F2',
+      },
+    },
   },
   plugins: [nextui()],
 }
