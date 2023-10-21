@@ -42,33 +42,8 @@ export async function GET(req) {
     });
     return NextResponse.json({
       data: responses,
-      message: "The Responses has been removed!"
+      message: "Successfully Get The Response By Specific Project!"
     });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { errorMessage: error.message },
-      { status: 500 }
-    );
-  }
-}
-
-// Get Response By ID
-export async function GET(req) {
-  try {
-    const id = req.params.id;
-    const response = await prisma.response.findUniqueOrThrow({
-      where: {
-        id,
-      },
-    });
-    if (!response) {
-      return NextResponse.json(
-        { message: "Response is not found!" },
-        { status: 500 }
-      );
-    }
-    return NextResponse.json(response);
   } catch (error) {
     console.log(error);
     return NextResponse.json(
@@ -83,7 +58,7 @@ export async function DELETE(req) {
   try {
     const id = req.params.id;
     await prisma.response.delete({ where: { id } });
-    return NextResponse.json({ message: "The Response has been removed!" });
+    return NextResponse.json({ message: "Successfully Remove The Response" });
   } catch (error) {
     console.log(error);
     return NextResponse.json(
