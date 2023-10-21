@@ -7,6 +7,14 @@ const { NextResponse } = require("next/server");
 export async function POST(req) {
   try {
     const { name } = await req.json();
+    
+    if (!name) {
+      return NextResponse.json({
+        message: "Missing required data"
+      }, {
+        status: 400
+      })
+    }
 
     const createProject = await prisma.project.create({
       data: {
