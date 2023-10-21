@@ -4,12 +4,22 @@ const { NextResponse } = require("next/server");
 // Create Response
 export async function POST(req) {
   try {
-    const { answer } = await req.json();
+    const { answer, pageId } = await req.json();
+
+    if (!answer) {
+      return NextResponse.json(
+        {
+          message: "Please fill the mandatory columns",
+        },
+        {
+          status: 400,
+        }
+      );
+    }
+
     const createResponse = await prisma.response.create({
       data: {
-        id,
-        createdAt,
-        answer,
+        answer: JSON.stringify(answer),
         pageId,
       },
     });
@@ -24,46 +34,68 @@ export async function POST(req) {
     );
   } catch (error) {
     console.log(error);
-    return NextResponse.json(
-      { errorMessage: error.message },
-      { status: 500 }
-    );
+    return NextResponse.json({ errorMessage: error.message }, { status: 500 });
   }
 }
 
-// Get Responses (Project)
+// Get All Responses by Specific Page
 export async function GET(req) {
+  const searchParams = req.nextUrl.searchParams;
+  const pageId = searchParams.get("pageId");
+
+  if (!pageId) {
+    return NextResponse.json(
+      { errorMessage: "Page ID is not correct" },
+      { status: 500 }
+    );
+  }
+
   try {
-    const projectId = req.query.projectId;
-    const responses = await prisma.response.findMany({
+    const findResponses = await prisma.response.findMany({
       where: {
-        projectId,
+        pageId,
       },
     });
-    return NextResponse.json({
-      data: responses,
-      message: "Successfully Get The Response By Specific Project!"
-    });
-  } catch (error) {
-    console.log(error);
     return NextResponse.json(
-      { errorMessage: error.message },
-      { status: 500 }
+      {
+        data: findResponses,
+        message: "Successfully Get All Responses By Specific Page!",
+      },
+      { status: 200 }
     );
+  } catch (error) {
+    return NextResponse.json({ errorMessage: error.message }, { status: 500 });
   }
 }
 
-// Remove Response
-export async function DELETE(req) {
-  try {
-    const id = req.params.id;
-    await prisma.response.delete({ where: { id } });
-    return NextResponse.json({ message: "Successfully Remove The Response" });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { errorMessage: error.message },
-      { status: 500 }
-    );
-  }
-}
+
+// // Get Responses (Project)
+// export async function GET(req) {
+//   try {
+//     const projectId = req.query.projectId;
+//     const responses = await prisma.response.findMany({
+//       where: {
+//         projectId,
+//       },
+//     });
+//     return NextResponse.json({
+//       data: responses,
+//       message: "Successfully Get The Response By Specific Project!",
+//     });
+//   } catch (error) {
+//     console.log(error);
+//     return NextResponse.json({ errorMessage: error.message }, { status: 500 });
+//   }
+// }
+
+// // Remove Response
+// export async function DELETE(req) {
+//   try {
+//     const id = req.params.id;
+//     await prisma.response.delete({ where: { id } });
+//     return NextResponse.json({ message: "Successfully Remove The Response" });
+//   } catch (error) {
+//     console.log(error);
+//     return NextResponse.json({ errorMessage: error.message }, { status: 500 });
+//   }
+// }

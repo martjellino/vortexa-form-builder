@@ -60,7 +60,7 @@ export async function GET(req) {
     return NextResponse.json(
       {
         data: findProjects,
-        message: "Successfully Get All Response By Specific Project!",
+        message: "Successfully Get All Project By Specific Author!",
       },
       { status: 200 }
     );

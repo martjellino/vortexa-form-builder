@@ -62,7 +62,7 @@ model Page {
 model Response {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  answer    String
+  answer    Json?
   page      Page     @relation(fields: [pageId], references: [id])
   pageId    String
 }
