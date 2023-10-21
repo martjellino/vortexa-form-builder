@@ -5,17 +5,25 @@ generator client {
   provider = "prisma-client-js"
 }
 
+//PostGreSQL
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
   // If you want to use Prisma Migrate, you will need to manually create a shadow database
   // https://neon.tech/docs/guides/prisma-migrate#configure-a-shadow-database-for-prisma-migrate
   // make sure to append ?connect_timeout=10 to the connection string
   // shadowDatabaseUrl = env(“SHADOW_DATABASE_URL”)
 }
+// Prisma for MongoDB
+// datasource db {
+//   provider = "mongodb"
+//   url = env("DATABASE_URL")
+// }
 
+// Prisma Model for PostgreSQL
 model Author {
-  id        String    @id @default(cuid()) @map("_id") @db.ObjectId
+  id        String    @id @default(cuid())
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   username  String    @unique
@@ -28,36 +36,94 @@ model Author {
 }
 
 model Project {
-  id        String   @id @default(cuid()) @map("_id") @db.ObjectId
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String
   author    Author   @relation(fields: [authorId], references: [id])
-  authorId  String   @db.ObjectId
-  // author String
-  // authorEmail String
+  authorId  String
   pages     Page[]
-  // @@unique([authorEmail])
 }
 
 model Page {
-  id            String     @id @default(cuid()) @map("_id") @db.ObjectId
+  id            String     @id @default(cuid())
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
   questionTitle String
   description   String?
   type          String
-  config        String
+  config        Json?
   choices       String?
   project       Project    @relation(fields: [projectId], references: [id])
-  projectId     String     @db.ObjectId
+  projectId     String
   responses     Response[]
 }
 
 model Response {
-  id        String   @id @default(cuid()) @map("_id") @db.ObjectId
+  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   answer    String
   page      Page     @relation(fields: [pageId], references: [id])
-  pageId    String   @db.ObjectId
+  pageId    String
 }
+
+
+
+
+// Mongo DB
+// datasource db {
+//   provider = "mongodb"
+//   url      = env("DATABASE_URL")
+//   // If you want to use Prisma Migrate, you will need to manually create a shadow database
+//   // https://neon.tech/docs/guides/prisma-migrate#configure-a-shadow-database-for-prisma-migrate
+//   // make sure to append ?connect_timeout=10 to the connection string
+//   // shadowDatabaseUrl = env(“SHADOW_DATABASE_URL”)
+// }
+
+// model Author {
+//   id        String    @id @default(cuid()) @map("_id") @db.ObjectId
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime  @updatedAt
+//   username  String    @unique
+//   email     String    @unique
+//   password  String
+//   firstName String
+//   lastName  String
+//   avatarUrl String?
+//   projects  Project[]
+// }
+
+// model Project {
+//   id        String   @id @default(cuid()) @map("_id") @db.ObjectId
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   name      String
+//   author    Author   @relation(fields: [authorId], references: [id])
+//   authorId  String   @db.ObjectId
+//   // author String
+//   // authorEmail String
+//   pages     Page[]
+//   // @@unique([authorEmail])
+// }
+
+// model Page {
+//   id            String     @id @default(cuid()) @map("_id") @db.ObjectId
+//   createdAt     DateTime   @default(now())
+//   updatedAt     DateTime   @updatedAt
+//   questionTitle String
+//   description   String?
+//   type          String
+//   config        String
+//   choices       String?
+//   project       Project    @relation(fields: [projectId], references: [id])
+//   projectId     String     @db.ObjectId
+//   responses     Response[]
+// }
+
+// model Response {
+//   id        String   @id @default(cuid()) @map("_id") @db.ObjectId
+//   createdAt DateTime @default(now())
+//   answer    String
+//   page      Page     @relation(fields: [pageId], references: [id])
+//   pageId    String   @db.ObjectId
+// }
