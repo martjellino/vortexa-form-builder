@@ -6,7 +6,7 @@ const { NextResponse } = require("next/server");
 // Create Project
 export async function POST(req) {
   try {
-    const { name } = await req.json();
+    const { name, authorId } = await req.json();
     
     if (!name) {
       return NextResponse.json({
@@ -18,9 +18,6 @@ export async function POST(req) {
 
     const createProject = await prisma.project.create({
       data: {
-        id,
-        createdAt,
-        updatedAt,
         name,
         authorId,
       },
@@ -40,62 +37,7 @@ export async function POST(req) {
   }
 }
 
-// Get Projects from Specific Author
-export async function GET(req, { params }) {
-  const { authorId } = params
-  try {
-    const projects = await prisma.project.findMany({
-      where: {
-        authorId,
-      },
-    });
-    return NextResponse.json(
-      {
-        data: projects,
-        message: "Successfully Get The Project",
-      },
-      {
-        status: 200,
-      }
-    );
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json({ errorMessage: error.message }, { status: 500 });
-  }
-}
 
-// Get Project by ID
-export async function GET(req) {
-  try {
-    const id = req.params.id;
-    const project = await prisma.project.findUniqueOrThrow({
-      where: {
-        id,
-      },
-    });
-
-    if (!project) {
-      return NextResponse.json(
-        {
-          message: "Project is not found!",
-        },
-        { status: 404 }
-      );
-    }
-    return NextResponse.json(
-      {
-        data: project,
-        message: "Successfully Get The Project",
-      },
-      {
-        status: 200,
-      }
-    );
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json({ errorMessage: error.message }, { status: 500 });
-  }
-}
 
 // Update Project
 export async function PATCH(req) {
