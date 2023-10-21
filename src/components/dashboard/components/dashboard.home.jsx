@@ -2,9 +2,13 @@
 import { Button,Input } from "@nextui-org/react"
 import { useProject } from "../hooks/useProject"
 import { Trash2 } from "lucide-react"
+import { auth } from "@clerk/nextjs"
+import { useUser } from "@clerk/nextjs";
 
-export const DashboardHome = () => {
-    const { projects, addProject, submitProject, isEdited, removeProject, handleChange, editProject } = useProject()
+export const DashboardHome = ({listProject}) => {
+    const { projects, addProject, submitProject, isEdited, removeProject, handleChange, editProject } = useProject(listProject.data)
+    const {user} = useUser()
+    
     return (
         <div className="my-8 px-20">
             <div className="flex justify-between items-center">
@@ -42,13 +46,13 @@ export const DashboardHome = () => {
                         </thead>
                         <tbody>
                             {
-                                projects.map((project,index) => {
+                                Object.keys(projects).length != 0 ? projects.map((project, index) => {
                                     return (
-                                        <tr className="bg-white border-b dark:bg-gray-800 hover:bg-gray-50" onDoubleClick={() => editProject(index)}>
+                                        <tr key={index} className={`bg-white border-b dark:bg-gray-800 ${project.edited ? '' : 'hover:bg-gray-50'}`} onDoubleClick={() => editProject(index)}>
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                                 {
                                                     !project.edited ? project.name : (
-                                                        <Input onChange={(event) => handleChange(event,index)} type="text" size="sm" value={project.name}/>
+                                                        <Input onChange={(event) => handleChange(event, index)} type="text" size="sm" value={project.name} />
                                                     )
                                                 }
                                             </th>
@@ -68,7 +72,7 @@ export const DashboardHome = () => {
                                                 {
                                                     project.edited && (
                                                         <div className="flex gap-4 items-center">
-                                                            <Button onClick={() => submitProject(index)} color="primary" size="sm">Save</Button>
+                                                            <Button onClick={() => submitProject(index, user.id)} color="primary" size="sm">Save</Button>
                                                             <Trash2 onClick={() => removeProject(index)} className="text-red-500 cursor-pointer" size={20} />
                                                         </div>
                                                     )
@@ -76,7 +80,13 @@ export const DashboardHome = () => {
                                             </td>
                                         </tr>
                                     )
-                                })
+                                }) : (
+                                    <tr>
+                                        <td colSpan={6} className="py-8 text-center">
+                                            No data to display
+                                        </td>
+                                    </tr>
+                                )
                             }
                         </tbody>
                     </table>

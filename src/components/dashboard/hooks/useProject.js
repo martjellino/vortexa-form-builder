@@ -1,33 +1,6 @@
 import { useState } from 'react'
 
-export const useProject = () => {
-  const initialProjects = [
-    {
-      id: 1,
-      name: 'My Project',
-      total_questions: 1,
-      total_responses: 1,
-      created_at: '2023-10-19 20:00:00',
-      updated_at: '2023-10-19 21:00:00',
-    },
-    {
-      id: 2,
-      name: 'Project List',
-      total_questions: 1,
-      total_responses: 1,
-      created_at: '2023-10-19 20:00:00',
-      updated_at: '2023-10-19 21:00:00',
-    },
-    {
-      id: 3,
-      name: 'Project Data',
-      total_questions: 1,
-      total_responses: 1,
-      created_at: '2023-10-19 20:00:00',
-      updated_at: '2023-10-19 21:00:00',
-    },
-  ]
-
+export const useProject = (initialProjects) => {
   const [projects, setProject] = useState(initialProjects)
   const [selectedProject, setSelectedProject] = useState({})
   const [isEdited, setIsEdited] = useState(false)
@@ -59,12 +32,15 @@ export const useProject = () => {
     setProject(currentProject)
   }
 
-  const submitProject = (id) => {
+  const submitProject = async (id, userId) => {
     setIsEdited(false)
     const currentProject = [...projects]
-    delete currentProject[id].edited
+    const payload = {
+      authorId: userId,
+      name: currentProject[id].name,
+    }
 
-    setProject(currentProject)
+    console.log(payload)
   }
   const removeProject = (id) => {
     const currentProject = projects.filter((_, index) => index != id)

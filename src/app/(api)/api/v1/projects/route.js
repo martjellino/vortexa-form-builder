@@ -1,54 +1,56 @@
-import { prisma } from "@/utils/prisma";
+import { prisma } from '@/utils/prisma'
+import { currentUser } from '@clerk/nextjs/server'
 
-const { NextResponse } = require("next/server");
+import { NextResponse } from 'next/server'
 
 // Create Project
 export async function POST(req) {
   try {
-    const { name, authorId } = await req.json();
+    const { name, authorId } = await req.json()
+    const user = await currentUser()
+    console.log(user)
 
     if (!name) {
       return NextResponse.json(
         {
-          message: "Please fill the mandatory columns",
+          message: 'Please fill the mandatory columns',
         },
         {
           status: 400,
-        }
-      );
+        },
+      )
     }
 
     const createProject = await prisma.project.create({
       data: {
         name,
-        authorId,
+        author: user.id,
       },
-    });
+    })
     return NextResponse.json(
       {
         data: createProject,
-        message: "Successfully Create The Project",
+        message: 'Successfully Create The Project',
       },
       {
         status: 201,
-      }
-    );
+      },
+    )
   } catch (error) {
-    console.log(error);
-    return NextResponse.json({ errorMessage: error.message }, { status: 500 });
+    return NextResponse.json({ errorMessage: error.message }, { status: 500 })
   }
 }
 
 // Get All Projects by Specific Author
 export async function GET(req) {
-  const searchParams = req.nextUrl.searchParams;
-  const authorId = searchParams.get("authorId");
+  const searchParams = req.nextUrl.searchParams
+  const authorId = searchParams.get('authorId')
 
   if (!authorId) {
     return NextResponse.json(
-      { errorMessage: "Author ID is not correct" },
-      { status: 500 }
-    );
+      { errorMessage: 'Author ID is not correct' },
+      { status: 500 },
+    )
   }
 
   try {
@@ -56,15 +58,15 @@ export async function GET(req) {
       where: {
         authorId,
       },
-    });
+    })
     return NextResponse.json(
       {
         data: findProjects,
-        message: "Successfully Get All Response By Specific Project!",
+        message: 'Successfully Get All Response By Specific Project!',
       },
-      { status: 200 }
-    );
+      { status: 200 },
+    )
   } catch (error) {
-    return NextResponse.json({ errorMessage: error.message }, { status: 500 });
+    return NextResponse.json({ errorMessage: error.message }, { status: 500 })
   }
 }
