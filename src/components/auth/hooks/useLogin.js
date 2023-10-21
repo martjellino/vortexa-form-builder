@@ -28,6 +28,7 @@ export const useLogin = () => {
       })
 
       if (result.status == 'complete') {
+        setIsLoading(false)
         await setActive({ session: result.createdSessionId })
         router.push('/dashboard')
       }

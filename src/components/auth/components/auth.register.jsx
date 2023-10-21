@@ -6,12 +6,15 @@ import { EyeFilledIcon } from "./EyeFilledIcon";
 import { EyeSlashFilledIcon } from "./EyeSlashFilledIcon";
 import Link from "next/link";
 import { useRegister } from "../hooks/useRegister";
+import { useOAuth } from "../hooks/useOAuth";
 
 export const AuthRegister = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
 
   const { handleChange, submitData, isLoading } = useRegister()
+  const { oauthGoogle } = useOAuth()
+
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
       <div className="bg-white rounded-md h-auto lg:w-4/5 flex flex-col justify-center px-16 pt-8">
@@ -109,13 +112,13 @@ export const AuthRegister = () => {
           <span className="flex-shrink mx-4  text-sm">Or</span>
           <div className="flex-grow border-t border-gray-300"></div>
         </div>
-        <Link
-          href=""
+        <button
+          onClick={oauthGoogle}
           className="border rounded-md hover:bg-gray-100 duration-100 transition-colors border-gray-200 p-1 flex justify-center items-center gap-2"
         >
           <img src="/google.svg" alt="" className="w-8 h-8" />
           <p className="text-base">Continue with Google</p>
-        </Link>
+        </button>
         <p className="text-sm text-center p-6">
           Already have an account ?&nbsp;
           <Link href="" className="font-bold underline">
