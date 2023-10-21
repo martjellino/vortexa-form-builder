@@ -2,6 +2,8 @@ import { prisma } from "@/utils/prisma";
 
 const { NextResponse } = require("next/server");
 
+
+// Create Project
 export async function POST(req) {
   try {
     const { name } = await req.json();
@@ -13,7 +15,6 @@ export async function POST(req) {
         updatedAt,
         name,
         authorId,
-        // author: { connect: { id: author.id } },
       },
     });
     return NextResponse.json(
@@ -32,11 +33,9 @@ export async function POST(req) {
 }
 
 // Get Projects from Specific Author
-export async function GET(req) {
+export async function GET(req, { params }) {
+  const { authorId } = params
   try {
-    const searchParams = req.nextUrl.searchParams
-    const authorId = searchParams.get('authorId');
-    
     const projects = await prisma.project.findMany({
       where: {
         authorId,
