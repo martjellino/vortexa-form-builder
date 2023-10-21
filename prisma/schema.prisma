@@ -52,7 +52,7 @@ model Page {
   questionTitle String
   description   String?
   type          String
-  config        String
+  config        Json?
   choices       String?
   project       Project    @relation(fields: [projectId], references: [id])
   projectId     String
