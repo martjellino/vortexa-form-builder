@@ -5,13 +5,15 @@ import { useState } from "react";
 import { EyeFilledIcon } from "./EyeFilledIcon";
 import { EyeSlashFilledIcon } from "./EyeSlashFilledIcon";
 import Link from "next/link";
+import { useLogin } from "../hooks/useLogin";
 
 export const AuthLogin = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+  const { isLoading, handleChange, handleSubmit } = useLogin()
   return (
     <div className="flex flex-col items-center w-full h-full">
-      <div className="bg-white rounded-md  h-full lg:w-4/5 flex flex-col justify-center px-16 pt-16">
+      <div className="bg-white rounded-md  h-full lg:w-4/5 flex flex-col justify-center px-16 pt-8">
         <h1 className="font-bold text-xl">Sign In</h1>
         <p className="font-light text-sm text-gray-400">
           Type your detail and start crafting!
@@ -19,14 +21,16 @@ export const AuthLogin = () => {
         <form className="space-y-4 mt-8">
           <div className="space-y-2">
             <label htmlFor="username" className="text-sm">
-              Username or Email
+              Email
             </label>
             <Input
               isClearable
               size="md"
-              type="text"
+              type="email"
+              name="email"
               placeholder="johndoe@example.com"
               isRequired
+              onChange={handleChange}
             />
           </div>
           <div className="space-y-2">
@@ -35,6 +39,8 @@ export const AuthLogin = () => {
             </label>
             <Input
               size="md"
+              name="password"
+              onChange={handleChange}
               placeholder="******"
               isRequired
               type={isVisible ? "text" : "password"}
@@ -61,7 +67,7 @@ export const AuthLogin = () => {
               Forgot Password
             </Link>
           </div>
-          <Button color="primary" className="w-full" size="md">
+          <Button onClick={handleSubmit} isLoading={isLoading} color="primary" className="w-full" size="md">
             Sign In
           </Button>
         </form>
@@ -77,7 +83,7 @@ export const AuthLogin = () => {
           <img src="/google.svg" alt="" className="w-8 h-8" />
           <p className="text-base">Continue with Google</p>
         </Link>
-        <p className="text-sm flex justify-center p-6">
+        <p className="text-sm text-center p-6">
           Don't have an account ?&nbsp;
           <Link href="" className="font-bold underline">
             Register

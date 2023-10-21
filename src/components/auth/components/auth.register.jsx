@@ -1,17 +1,20 @@
 "use client";
 
-import { Input, Button, Checkbox } from "@nextui-org/react";
+import { Input, Button } from "@nextui-org/react";
 import { useState } from "react";
 import { EyeFilledIcon } from "./EyeFilledIcon";
 import { EyeSlashFilledIcon } from "./EyeSlashFilledIcon";
 import Link from "next/link";
+import { useRegister } from "../hooks/useRegister";
 
 export const AuthRegister = () => {
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
+
+  const { handleChange, submitData, isLoading } = useRegister()
   return (
     <div className="flex flex-col items-center justify-center w-full h-full">
-      <div className="bg-white rounded-md h-auto lg:w-4/5 flex flex-col justify-center px-16 pt-16">
+      <div className="bg-white rounded-md h-auto lg:w-4/5 flex flex-col justify-center px-16 pt-8">
         <h1 className="font-bold text-xl">Sign Up</h1>
         <p className="font-light text-sm text-gray-400">
           Welcome, join with us and get better data with forms and surveys.
@@ -25,8 +28,10 @@ export const AuthRegister = () => {
               isClearable
               size="md"
               type="text"
+              name="username"
               placeholder="John Doe"
               isRequired
+              onChange={handleChange}
             />
           </div>
           <div className="space-y-2">
@@ -37,8 +42,10 @@ export const AuthRegister = () => {
               isClearable
               size="md"
               type="text"
+              name="email"
               placeholder="johndoe@sample.com"
               isRequired
+              onChange={handleChange}
             />
           </div>
           <div className="space-y-2">
@@ -49,6 +56,8 @@ export const AuthRegister = () => {
               size="md"
               placeholder="******"
               isRequired
+              name="password"
+              onChange={handleChange}
               type={isVisible ? "text" : "password"}
               endContent={
                 <button
@@ -73,7 +82,9 @@ export const AuthRegister = () => {
               size="md"
               placeholder="******"
               isRequired
+              name="confirm_password"
               type={isVisible ? "text" : "password"}
+              onChange={handleChange}
               endContent={
                 <button
                   className="focus:outline-none"
@@ -89,7 +100,7 @@ export const AuthRegister = () => {
               }
             />
           </div>
-          <Button color="primary" className="w-full" size="md">
+          <Button isLoading={isLoading} onClick={submitData} color="primary" className="w-full" size="md">
             Sign Up
           </Button>
         </form>
@@ -105,7 +116,7 @@ export const AuthRegister = () => {
           <img src="/google.svg" alt="" className="w-8 h-8" />
           <p className="text-base">Continue with Google</p>
         </Link>
-        <p className="text-sm flex justify-center p-6">
+        <p className="text-sm text-center p-6">
           Already have an account ?&nbsp;
           <Link href="" className="font-bold underline">
             Login
