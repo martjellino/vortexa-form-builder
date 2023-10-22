@@ -20,7 +20,7 @@ export async function POST(req) {
         questionTitle,
         description,
         type,
-        config,
+        config: JSON.stringify(config),
         choices,
         projectId,
       },
@@ -32,49 +32,6 @@ export async function POST(req) {
       },
       {
         status: 201,
-      }
-    );
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json({ errorMessage: error.message }, { status: 500 });
-  }
-}
-
-// Update Page
-export async function PATCH(req) {
-  try {
-    const id = req.params.id;
-    const { questionTitle, description, type, config, choices, projectId } =
-      await req.json();
-    const page = await prisma.page.findUnique({
-      where: { id },
-    });
-    if (!page) {
-      return NextResponse.json(
-        {
-          message: "Product is not found!",
-        },
-        { status: 404 }
-      );
-    }
-    const updatePage = await prisma.page.update({
-      where: { id },
-      data: {
-        id,
-        questionTitle,
-        description,
-        type,
-        config,
-        choices,
-      },
-    });
-    return NextResponse.json(
-      {
-        data: updatePage,
-        message: "Successfully Update The Page",
-      },
-      {
-        status: 200,
       }
     );
   } catch (error) {

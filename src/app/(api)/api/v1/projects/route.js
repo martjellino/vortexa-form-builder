@@ -7,8 +7,6 @@ import { NextResponse } from 'next/server'
 export async function POST(req) {
   try {
     const { name, authorId } = await req.json()
-    const user = await currentUser()
-    console.log(user)
 
     if (!name) {
       return NextResponse.json(
@@ -24,7 +22,7 @@ export async function POST(req) {
     const createProject = await prisma.project.create({
       data: {
         name,
-        author: user.id,
+        authorId,
       },
     })
     return NextResponse.json(
@@ -62,7 +60,7 @@ export async function GET(req) {
     return NextResponse.json(
       {
         data: findProjects,
-        message: 'Successfully Get All Response By Specific Project!',
+        message: 'Successfully Get All Project By Specific Author!',
       },
       { status: 200 },
     )

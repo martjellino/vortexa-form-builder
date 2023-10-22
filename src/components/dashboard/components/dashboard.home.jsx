@@ -1,14 +1,15 @@
 "use client"
 import { Button,Input } from "@nextui-org/react"
 import { useProject } from "../hooks/useProject"
-import { Trash2 } from "lucide-react"
-import { auth } from "@clerk/nextjs"
+import { Trash2, XCircle } from "lucide-react"
 import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/navigation";
 
 export const DashboardHome = ({listProject}) => {
-    const { projects, addProject, submitProject, isEdited, removeProject, handleChange, editProject } = useProject(listProject.data)
+    const { projects, addProject, submitProject, isEdited, removeProject, handleChange, editProject, cancelEdited, submitEditedProject } = useProject(listProject.data)
     const {user} = useUser()
-    
+    const { push } = useRouter()
+
     return (
         <div className="my-8 px-20">
             <div className="flex justify-between items-center">
@@ -48,10 +49,10 @@ export const DashboardHome = ({listProject}) => {
                             {
                                 Object.keys(projects).length != 0 ? projects.map((project, index) => {
                                     return (
-                                        <tr key={index} className={`bg-white border-b dark:bg-gray-800 ${project.edited ? '' : 'hover:bg-gray-50'}`} onDoubleClick={() => editProject(index)}>
+                                        <tr key={index} className={`bg-white border-b dark:bg-gray-800 cursor-pointer ${project.edited || project.existedEdited ? '' : 'hover:bg-gray-50'}`} onClick={() => {push(`projects/${project.id}`)}} onDoubleClick={() => { !project.existedEdited ? editProject(index): {} }}>
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                                 {
-                                                    !project.edited ? project.name : (
+                                                    !project.edited & !project.existedEdited ? project.name : (
                                                         <Input onChange={(event) => handleChange(event, index)} type="text" size="sm" value={project.name} />
                                                     )
                                                 }
@@ -63,10 +64,10 @@ export const DashboardHome = ({listProject}) => {
                                                 {project.total_responses}
                                             </td>
                                             <td className="px-6 py-4">
-                                                {project.created_at}
+                                                {project.createdAt}
                                             </td>
                                             <td className="px-6 py-4">
-                                                {project.updated_at}
+                                                {project.updatedAt}
                                             </td>
                                             <td className="px-6 py-4">
                                                 {
@@ -74,6 +75,14 @@ export const DashboardHome = ({listProject}) => {
                                                         <div className="flex gap-4 items-center">
                                                             <Button onClick={() => submitProject(index, user.id)} color="primary" size="sm">Save</Button>
                                                             <Trash2 onClick={() => removeProject(index)} className="text-red-500 cursor-pointer" size={20} />
+                                                        </div>
+                                                    )
+                                                }
+                                                {
+                                                    project.existedEdited && (
+                                                        <div className="flex gap-4 items-center">
+                                                            <Button onClick={() => submitEditedProject(index, project.id)} color="primary" size="sm">Save</Button>
+                                                            <XCircle onClick={() => cancelEdited(index)} className="text-red-500 cursor-pointer" size={20}/>
                                                         </div>
                                                     )
                                                 }

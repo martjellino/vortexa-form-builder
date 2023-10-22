@@ -32,7 +32,7 @@ model Author {
   firstName String
   lastName  String
   avatarUrl String?
-  projects  Project[]
+  // projects  Project[]
 }
 
 model Project {
@@ -40,7 +40,7 @@ model Project {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   name      String
-  author    Author   @relation(fields: [authorId], references: [id])
+  // author    Author   @relation(fields: [authorId], references: [id])
   authorId  String
   pages     Page[]
 }
@@ -62,7 +62,7 @@ model Page {
 model Response {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  answer    String
+  answer    Json?
   page      Page     @relation(fields: [pageId], references: [id])
   pageId    String
 }
