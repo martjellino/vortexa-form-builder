@@ -38,13 +38,13 @@ export async function GET(req, { params }) {
 
 // Update Page
 export async function PATCH(req, { params }) {
-  const { id } = params;
-  const { questionTitle, description, type, config, choices } =
-    await req.json();
+  const body = await req.json();
+  console.log(body);
+
   try {
     const findPage = await prisma.page.findFirst({
       where: {
-        id,
+        id: body.id,
       },
     });
     if (!findPage) {
@@ -58,13 +58,13 @@ export async function PATCH(req, { params }) {
       );
     }
     const updatePage = await prisma.page.update({
-      where: { id },
+      where: { id: body.id },
       data: {
-        questionTitle,
-        description,
-        type,
-        config: JSON.stringify(config),
-        choices,
+        questionTitle: body.questionTitle,
+        description: body.description,
+        type: body.type,
+        config: body.config,
+        choices: body.choices,
       },
     });
     return NextResponse.json(
@@ -80,6 +80,49 @@ export async function PATCH(req, { params }) {
     return NextResponse.json({ errorMessage: error.message }, { status: 500 });
   }
 }
+// export async function PATCH(req, { params }) {
+//   const { id } = params;
+//   const { questionTitle, description, type, config, choices } =
+//     await req.json();
+//   try {
+//     const findPage = await prisma.page.findFirst({
+//       where: {
+//         id,
+//       },
+//     });
+//     if (!findPage) {
+//       return NextResponse.json(
+//         {
+//           message: "The page is not found!",
+//         },
+//         {
+//           status: 404,
+//         }
+//       );
+//     }
+//     const updatePage = await prisma.page.update({
+//       where: { id },
+//       data: {
+//         questionTitle,
+//         description,
+//         type,
+//         config: JSON.stringify(config),
+//         choices,
+//       },
+//     });
+//     return NextResponse.json(
+//       {
+//         data: updatePage,
+//         message: "Successfully Update The Page",
+//       },
+//       {
+//         status: 200,
+//       }
+//     );
+//   } catch (error) {
+//     return NextResponse.json({ errorMessage: error.message }, { status: 500 });
+//   }
+// }
 
 // Remove Page
 export async function DELETE(req, { params }) {
