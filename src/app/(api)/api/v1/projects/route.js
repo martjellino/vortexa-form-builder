@@ -25,6 +25,11 @@ export async function POST(req) {
         authorId,
       },
     })
+
+    await prisma.page.create({
+      
+    })
+
     return NextResponse.json(
       {
         data: createProject,

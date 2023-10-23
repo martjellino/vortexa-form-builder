@@ -1,7 +1,7 @@
 "use client"
 import { Button,Input } from "@nextui-org/react"
 import { useProject } from "../hooks/useProject"
-import { Trash2, XCircle } from "lucide-react"
+import { Trash2, XCircle, Eye } from "lucide-react"
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
@@ -49,7 +49,7 @@ export const DashboardHome = ({listProject}) => {
                             {
                                 Object.keys(projects).length != 0 ? projects.map((project, index) => {
                                     return (
-                                        <tr key={index} className={`bg-white border-b dark:bg-gray-800 cursor-pointer ${project.edited || project.existedEdited ? '' : 'hover:bg-gray-50'}`} onClick={() => {push(`projects/${project.id}`)}} onDoubleClick={() => { !project.existedEdited ? editProject(index): {} }}>
+                                        <tr key={index} className={`bg-white border-b dark:bg-gray-800 ${project.edited || project.existedEdited ? '' : 'hover:bg-gray-50'}`} onDoubleClick={() => { !project.existedEdited ? editProject(index): {} }}>
                                             <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
                                                 {
                                                     !project.edited & !project.existedEdited ? project.name : (
@@ -84,6 +84,11 @@ export const DashboardHome = ({listProject}) => {
                                                             <Button onClick={() => submitEditedProject(index, project.id)} color="primary" size="sm">Save</Button>
                                                             <XCircle onClick={() => cancelEdited(index)} className="text-red-500 cursor-pointer" size={20}/>
                                                         </div>
+                                                    )
+                                                }
+                                                {
+                                                    !project.edited && !project.existedEdited && (
+                                                        <Eye className="cursor-pointer" onClick={() => {push(`projects/${project.id}`)}}/>
                                                     )
                                                 }
                                             </td>
