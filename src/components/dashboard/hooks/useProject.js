@@ -1,6 +1,7 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 import toast from 'react-hot-toast'
+import { createId } from '@paralleldrive/cuid2'
 
 export const useProject = (initialProjects) => {
   const router = useRouter()
@@ -13,6 +14,7 @@ export const useProject = (initialProjects) => {
     setProject([
       ...projects,
       {
+        id: createId(),
         name: '',
         total_questions: 0,
         total_responses: 0,
@@ -39,6 +41,7 @@ export const useProject = (initialProjects) => {
   const submitProject = async (id, userId, isEdit = false) => {
     const currentProject = [...projects]
     const payload = {
+      id: currentProject[id].id,
       authorId: userId,
       name: currentProject[id].name,
     }

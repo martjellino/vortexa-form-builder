@@ -6,7 +6,7 @@ import { NextResponse } from 'next/server'
 // Create Project
 export async function POST(req) {
   try {
-    const { name, authorId } = await req.json()
+    const { id, name, authorId } = await req.json()
 
     if (!name) {
       return NextResponse.json(
@@ -21,13 +21,36 @@ export async function POST(req) {
 
     const createProject = await prisma.project.create({
       data: {
+        id,
         name,
         authorId,
       },
     })
 
+    const defaultConfig = {
+      themes: {
+        answer_color: '#DDDDD',
+        background_color: '#FFFFFF',
+        question_text_color: '#FFFFFF',
+        description_text_color: '#F0F0F0',
+      },
+      layouts: 'col-6',
+      is_image: false,
+      image_url: 'testes.png',
+      is_required: false,
+    }
+    const defaultChoices = {
+      contents: {},
+    }
+
     await prisma.page.create({
-      
+      data: {
+        projectId: createProject.id,
+        questionTitle: '',
+        type: '',
+        config: defaultConfig,
+        choices: defaultChoices,
+      },
     })
 
     return NextResponse.json(
