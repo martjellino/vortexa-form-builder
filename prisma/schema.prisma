@@ -15,6 +15,7 @@ datasource db {
   // make sure to append ?connect_timeout=10 to the connection string
   // shadowDatabaseUrl = env(“SHADOW_DATABASE_URL”)
 }
+
 // Prisma for MongoDB
 // datasource db {
 //   provider = "mongodb"
@@ -23,11 +24,11 @@ datasource db {
 
 // Prisma Model for PostgreSQL
 model Author {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  username  String    @unique
-  email     String    @unique
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  username  String   @unique
+  email     String   @unique
   password  String
   firstName String
   lastName  String
@@ -36,24 +37,25 @@ model Author {
 }
 
 model Project {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  name      String
+  id          String   @id @default(cuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
   // author    Author   @relation(fields: [authorId], references: [id])
-  authorId  String
-  pages     Page[]
+  authorId    String
+  isPublished Boolean  @default(false)
+  pages       Page[]
 }
 
 model Page {
   id            String     @id @default(cuid())
   createdAt     DateTime   @default(now())
   updatedAt     DateTime   @updatedAt
-  questionTitle String
+  questionTitle String?
   description   String?
-  type          String
+  type          String?
   config        Json?
-  choices       String?
+  choices       Json?
   project       Project    @relation(fields: [projectId], references: [id])
   projectId     String
   responses     Response[]
@@ -66,9 +68,6 @@ model Response {
   page      Page     @relation(fields: [pageId], references: [id])
   pageId    String
 }
-
-
-
 
 // Mongo DB
 // datasource db {
