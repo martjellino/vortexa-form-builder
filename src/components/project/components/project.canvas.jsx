@@ -1,20 +1,41 @@
 "use client"
-import { useAtomValue } from "jotai"
-import { useRef } from "react"
+import { useAtomValue, useAtom } from "jotai"
+import { useRef, useState, useEffect } from "react"
 import { activePage, pageAtom } from "@/jotai/page"
 import ContentEditable from "react-contenteditable"
 import { AnswerText } from "@/components/answer/components/answer.text"
 import { MultipleChoice } from "@/components/answer/components/multiple.choice"
+import { AnswerRating } from "@/components/answer/components/answer.rating"
 
 export const ProjectCanvas = () => {
     const titleEditable = useRef("")
     const descEditable = useRef("")
 
-    const active = useAtomValue(activePage)
-    const pages = useAtomValue(pageAtom)
+    const [title, setTitle] = useState({ html: "" });
+    const [description, setDescription] = useState({html: ""})
 
-    const handleChange = (e) => {
-        // console.log(e.target.value)
+    const active = useAtomValue(activePage)
+    const [pages,setPages] = useAtom(pageAtom)
+
+    useEffect(() => {
+        setTitle({ html: pages[active]?.questionTitle })
+        setDescription({html: pages[active]?.description})
+        return () => {
+            setTitle({html: ""})
+            setDescription({html: ""})
+        };
+    }, [pages,active]);
+
+    const handleTitleChange = (e) => {
+        const currentPage = [...pages]
+        currentPage[active].questionTitle = e.target.value
+        setPages(currentPage)
+    }
+    
+    const handleDescription = (e) => {
+        const currentPage = [...pages]
+        currentPage[active].description = e.target.value
+        setPages(currentPage)
     }
 
     return (
@@ -26,15 +47,18 @@ export const ProjectCanvas = () => {
                             <p className="text-red-500 italic text-sm">*Required</p>
                         ) : ''
                     }
-                    <ContentEditable html="" onChange={handleChange} innerRef={titleEditable} tagName="article" className={`w-full text-2xl italic focus:outline-none empty:before:content-[attr(aria-placeholder)] empty:before:block empty:before:text-gray-400 pb-1`} aria-placeholder="Type your question..." />
+                    <ContentEditable html={title.html} onChange={handleTitleChange} innerRef={titleEditable} tagName="article" className={`w-full text-2xl italic focus:outline-none empty:before:content-[attr(aria-placeholder)] empty:before:block empty:before:text-gray-400 pb-1`} aria-placeholder="Type your question..." />
                 </div>
-                <ContentEditable html="" innerRef={descEditable} tagName="article" className="w-full text-gray-600 text-lg font-extralight focus:outline-none empty:before:content-[attr(aria-placeholder)] empty:before:block empty:before:text-gray-400" aria-placeholder="Type description (optional)" />
+                <ContentEditable html={description.html} onChange={handleDescription} innerRef={descEditable} tagName="article" className="w-full text-gray-600 text-lg font-extralight focus:outline-none empty:before:content-[attr(aria-placeholder)] empty:before:block empty:before:text-gray-400" aria-placeholder="Type description (optional)" />
                 <div className="mt-8">
                     {
                         pages[active]?.type == "short_text" && (<AnswerText/>)
                     }
                     {
                         pages[active]?.type == "multiple_choice" && (<MultipleChoice/>)
+                    }
+                    {
+                        pages[active]?.type == "rating" && (<AnswerRating/>)
                     }
                 </div>
             </div>

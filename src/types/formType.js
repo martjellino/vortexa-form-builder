@@ -8,7 +8,7 @@ export const formType = [
     key: 'multiple_choice',
   },
   {
-    label: 'rating',
+    label: 'Rating',
     key: 'rating',
   },
 ]

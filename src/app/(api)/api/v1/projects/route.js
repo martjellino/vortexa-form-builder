@@ -31,7 +31,7 @@ export async function POST(req) {
       themes: {
         answer_color: '#DDDDD',
         background_color: '#FFFFFF',
-        question_text_color: '#FFFFFF',
+        question_text_color: '#000000',
         description_text_color: '#F0F0F0',
       },
       layouts: 'col-6',
@@ -40,7 +40,7 @@ export async function POST(req) {
       is_required: false,
     }
     const defaultChoices = {
-      contents: {},
+      contents: [],
     }
 
     await prisma.page.create({
@@ -49,7 +49,7 @@ export async function POST(req) {
         questionTitle: '',
         type: '',
         config: defaultConfig,
-        choices: defaultChoices,
+        choices: JSON.stringify(defaultChoices),
       },
     })
 

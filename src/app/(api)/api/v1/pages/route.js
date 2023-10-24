@@ -43,25 +43,26 @@ export async function POST(req) {
       choices,
       projectId,
     } = await req.json()
+    
 
-    if (!questionTitle || !type || !config || !projectId) {
-      return NextResponse.json(
-        { error: `Please fill the mandatory columns` },
-        { status: 400 },
-      )
-    }
+    // if (!questionTitle || !type || !config || !projectId) {
+    //   return NextResponse.json(
+    //     { error: `Please fill the mandatory columns` },
+    //     { status: 400 },
+    //   )
+    // }
 
     const createPage = await prisma.page.create({
       data: {
         questionTitle,
         description,
         type,
-        config: JSON.stringify(config),
+        config,
         choices,
         projectId,
       },
     })
-    
+
     return NextResponse.json(
       {
         data: createPage,
@@ -78,25 +79,25 @@ export async function POST(req) {
 }
 
 // Remove Page
-export async function DELETE(req) {
-  try {
-    const id = req.params.id
-    const page = await prisma.page.findUnique({
-      where: { id },
-    })
-    if (!page) {
-      return NextResponse.json(
-        { message: 'The Page is not found!' },
-        { status: 404 },
-      )
-    }
-    await prisma.page.delete({ where: { id } })
-    return NextResponse.json(
-      { message: 'Successfully Remove The Page' },
-      { status: 200 },
-    )
-  } catch (error) {
-    console.log(error)
-    return NextResponse.json({ errorMessage: error.message }, { status: 500 })
-  }
-}
+// export async function DELETE(req) {
+//   try {
+//     const id = req.params.id;
+//     const page = await prisma.page.findUnique({
+//       where: { id },
+//     });
+//     if (!page) {
+//       return NextResponse.json(
+//         { message: "The Page is not found!" },
+//         { status: 404 }
+//       );
+//     }
+//     await prisma.page.delete({ where: { id } });
+//     return NextResponse.json(
+//       { message: "Successfully Remove The Page" },
+//       { status: 200 }
+//     );
+//   } catch (error) {
+//     console.log(error);
+//     return NextResponse.json({ errorMessage: error.message }, { status: 500 });
+//   }
+// }
