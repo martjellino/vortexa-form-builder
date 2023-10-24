@@ -15,14 +15,19 @@ export async function GET(req) {
   }
 
   try {
-    const findProjects = await prisma.page.findMany({
+    const findPages = await prisma.page.findMany({
       where: {
         projectId: projectId,
       },
+      include: {
+        _count: {
+          select: { responses: true }
+        }
+      }
     })
     return NextResponse.json(
       {
-        data: findProjects,
+        data: findPages,
         message: 'Successfully Get All Pages By Specific Project!',
       },
       { status: 200 },
