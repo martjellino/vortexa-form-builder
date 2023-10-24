@@ -29,6 +29,23 @@ export const ProjectPage = () => {
         }
     }
 
+    const removePage = async (pageId) => {
+        const result = await fetch(`http://localhost:3000/api/v1/pages/${pageId}`,{
+            method: "DELETE",
+            cache: "no-store"
+        })
+
+        if(result.status == 200){
+            toast.success("Page deleted!")
+            setActive(active - 1)
+            const currentPages = [...pages]
+            const filtered = currentPages.filter((curr) => { return curr.id != pageId })
+            setPages(filtered)
+        } else {
+            toast.error("Something error")
+        }
+    }
+
     return (
         <div className="h-[calc(100vh-64px)] bg-white w-96 border-t-1 border-gray-200 px-4 py-4 overflow-y-auto">
             <h1 className="text-sm font-medium">Page Navigation</h1>
@@ -39,7 +56,7 @@ export const ProjectPage = () => {
                             <div key={index} onClick={() => setActive(index)} className={`px-4 py-2 flex items-center justify-between rounded-md  ${active == index ? 'bg-gray-200' : 'bg-gray-50 hover:bg-gray-300 cursor-pointer'}`}>
                                 Page {index + 1}
                                 {
-                                    active == index && <Trash2 size={20} className="text-red-400 cursor-pointer" />
+                                    active == index && <Trash2 size={20} className="text-red-400 cursor-pointer" onClick={() => removePage(page.id)} />
                                 }
                             </div>
                         )

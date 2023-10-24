@@ -1,18 +1,27 @@
 import { Button } from "@nextui-org/react"
 import { useAnswer } from "../hooks/useAnswer"
 import ContentEditable from "react-contenteditable"
-import { useRef } from "react"
+import { useEffect, useRef } from "react"
 import { XCircle } from "lucide-react"
 
 export const MultipleChoice = () => {
 
     const { addChoice, pages, active, removeAnswer, setTextAnswer } = useAnswer()
     const answerRef = useRef()
+
+    useEffect(() => {
+        const currentPage = [...pages]
+        // currentPage[active].choices = JSON.parse(currentPage[active].choices)
+        console.log(currentPage[active].choices)
+        // return () => {
+        //     cleanup
+        // };
+    }, [pages,active]);
     
     return (
         <div className="space-y-4">
             <div className="flex flex-col gap-2">
-                {
+                {/* {
                     typeof pages[active]?.choices != "string" && pages[active]?.choices.contents.length != 0 ? 
                     (
                         pages[active]?.choices.contents.map((choice,index) => {
@@ -26,7 +35,7 @@ export const MultipleChoice = () => {
                             )
                         })
                     ) : ""
-                }
+                } */}
             </div>
             <Button color="primary" size="sm" onClick={addChoice}>New Choice</Button>
         </div>

@@ -1,14 +1,15 @@
 "use client"
-import { Select, SelectItem, Switch, Input } from "@nextui-org/react";
+import { Select, SelectItem, Switch, Input, Button } from "@nextui-org/react";
 import { useEditor } from "../hooks/useEditor";
 import { formType } from "@/types/formType";
 import { ratingNumber } from "@/types/ratingNumber";
 import { useState, useEffect } from "react";
-import { HexColorPicker } from "react-colorful";
+import { HexColorInput, HexColorPicker } from "react-colorful";
+import OutsideClickHandler from "react-outside-click-handler";
 
 export const ProjectEditor = () => {
 
-    const { handleIsRequired, pages, active, handleType, handleRatingNumber, handleStartLabel, handleEndLabel, handleTypeRating } = useEditor()
+    const { handleIsRequired, pages, active, handleType, handleRatingNumber, handleStartLabel, handleEndLabel, handleTypeRating, savePage } = useEditor()
     const [type, setType] = useState("");
 
     useEffect(() => {
@@ -84,16 +85,16 @@ export const ProjectEditor = () => {
                 <h1 className="text-sm font-medium">Themes</h1>
                 <hr className="h-px mt-2 bg-gray-300 border-0"></hr>
                 <div className="space-y-6 mt-4">
-                    <div className="flex justify-between">
+                    <div className="flex items-center relative justify-between">
                         <label htmlFor="" className="text-sm">Background</label>
-                        
+                        {/* <div className="w-6 h-6 rounded-md bg-black cursor-pointer"></div> */}
+                        <div className="absolute top-8 left-10">
+                            {/* <HexColorPicker/>
+                            <HexColorInput/> */}
+                        </div>
                     </div>
                     <div className="flex justify-between">
                         <label htmlFor="" className="text-sm">Question</label>
-                        
-                    </div>
-                    <div className="flex justify-between">
-                        <label htmlFor="" className="text-sm">Description</label>
                         
                     </div>
                     <div className="flex justify-between">
@@ -102,6 +103,7 @@ export const ProjectEditor = () => {
                     </div>
                 </div>
             </div>
+            <Button color="primary" className="w-full" onClick={savePage}>Save</Button>
         </div>
     )
 }

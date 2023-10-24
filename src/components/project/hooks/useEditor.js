@@ -51,6 +51,10 @@ export const useEditor = () => {
     setPages(currentPage)
   }
 
+  const savePage = () => {
+    console.log(pages)
+  }
+
   return {
     handleIsRequired,
     handleType,
@@ -60,5 +64,6 @@ export const useEditor = () => {
     handleStartLabel,
     handleEndLabel,
     handleTypeRating,
+    savePage
   }
 }
