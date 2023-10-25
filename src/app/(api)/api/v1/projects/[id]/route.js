@@ -60,6 +60,7 @@ export async function PATCH(req, { params }) {
       where: { id },
       data: {
         name,
+        isPublished: true
       },
     });
     return NextResponse.json(
