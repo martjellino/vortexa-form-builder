@@ -1,9 +1,12 @@
 import { useAtom, useAtomValue } from 'jotai'
 import { activePage, pageAtom } from '@/jotai/page'
+import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 export const useEditor = () => {
   const active = useAtomValue(activePage)
   const [pages, setPages] = useAtom(pageAtom)
+  const router = useRouter()
 
   const handleIsRequired = (e) => {
     const currentPage = [...pages]
@@ -34,8 +37,10 @@ export const useEditor = () => {
   const handleRatingNumber = (e) => {
     const currentPage = [...pages]
     currentPage[active].config.rating_total = parseInt(e.target.value)
-    currentPage[active].config.rating_start_label = ''
-    currentPage[active].config.rating_end_label = ''
+    currentPage[active].config.rating_start_label =
+      currentPage[active].config.rating_start_label
+    currentPage[active].config.rating_end_label =
+      currentPage[active].config.rating_end_label
     setPages(currentPage)
   }
 
@@ -51,8 +56,20 @@ export const useEditor = () => {
     setPages(currentPage)
   }
 
-  const savePage = () => {
+  const savePage = async () => {
     console.log(pages)
+    const result = await fetch('http://localhost:3000/api/v1/pages', {
+      method: 'PUT',
+      cache: 'no-cache',
+      body: JSON.stringify(pages),
+    })
+
+    if (result.status == 200) {
+      toast.success('Sucess saving page')
+      router.refresh()
+    } else {
+      toast.error('error submited data')
+    }
   }
 
   return {
@@ -64,6 +81,6 @@ export const useEditor = () => {
     handleStartLabel,
     handleEndLabel,
     handleTypeRating,
-    savePage
+    savePage,
   }
 }

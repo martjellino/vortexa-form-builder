@@ -36,6 +36,7 @@ export const useAnswer = () => {
       label: 'Choices',
     })
     setPages(currentPage)
+    console.log(currentPage[active])
   }
 
   const removeAnswer = (choiceId) => {

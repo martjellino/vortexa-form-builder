@@ -8,8 +8,6 @@ import { MultipleChoice } from "@/components/answer/components/multiple.choice"
 import { AnswerRating } from "@/components/answer/components/answer.rating"
 
 export const ProjectCanvas = () => {
-    const titleEditable = useRef("")
-    const descEditable = useRef("")
 
     const [title, setTitle] = useState({ html: "" });
     const [description, setDescription] = useState({html: ""})
@@ -47,9 +45,9 @@ export const ProjectCanvas = () => {
                             <p className="text-red-500 italic text-sm">*Required</p>
                         ) : ''
                     }
-                    <ContentEditable html={title.html} onChange={handleTitleChange} innerRef={titleEditable} tagName="article" className={`w-full text-2xl italic focus:outline-none empty:before:content-[attr(aria-placeholder)] empty:before:block empty:before:text-gray-400 pb-1`} aria-placeholder="Type your question..." />
+                    <ContentEditable html={title.html} onChange={handleTitleChange} tagName="article" className={`w-full text-2xl italic focus:outline-none empty:before:content-[attr(aria-placeholder)] empty:before:block empty:before:text-gray-400 pb-1`} aria-placeholder="Type your question..." />
                 </div>
-                <ContentEditable html={description.html} onChange={handleDescription} innerRef={descEditable} tagName="article" className="w-full text-gray-600 text-lg font-extralight focus:outline-none empty:before:content-[attr(aria-placeholder)] empty:before:block empty:before:text-gray-400" aria-placeholder="Type description (optional)" />
+                <ContentEditable html={description.html} onChange={handleDescription} tagName="article" className="w-full text-gray-600 text-lg font-extralight focus:outline-none empty:before:content-[attr(aria-placeholder)] empty:before:block empty:before:text-gray-400" aria-placeholder="Type description (optional)" />
                 <div className="mt-8">
                     {
                         pages[active]?.type == "short_text" && (<AnswerText/>)

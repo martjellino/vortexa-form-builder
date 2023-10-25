@@ -21,9 +21,9 @@ export async function GET(req) {
       },
       include: {
         _count: {
-          select: { responses: true }
-        }
-      }
+          select: { responses: true },
+        },
+      },
     })
     return NextResponse.json(
       {
@@ -104,17 +104,14 @@ export async function PUT(req) {
       return NextResponse.json({ message: 'Invalid ID' }, { status: 404 })
     }
 
-    const updatePage = await prisma.page.update({
+    await prisma.page.update({
       where: { id: data.id },
       data: {
         questionTitle: data.questionTitle,
         description: data.description,
         type: data.type,
         config: data.config,
-        choices:
-          typeof data.choices == 'string'
-            ? data.choices
-            : JSON.stringify(data.choices),
+        choices: data.choices,
       },
     })
   })

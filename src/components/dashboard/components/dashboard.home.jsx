@@ -58,7 +58,7 @@ export const DashboardHome = ({listProject}) => {
                                                 }
                                             </th>
                                             <td className="px-6 py-4">
-                                                {project.total_questions}
+                                                {project._count.pages}
                                             </td>
                                             <td className="px-6 py-4">
                                                 {project.total_responses}

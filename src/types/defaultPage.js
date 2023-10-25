@@ -15,5 +15,5 @@ export const defaultPage = {
     image_url: 'testes.png',
     is_required: false,
   },
-  choices: '{"contents":[]}',
+  choices: { contents: [] },
 }

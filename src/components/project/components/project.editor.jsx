@@ -68,11 +68,11 @@ export const ProjectEditor = () => {
                                     <>
                                         <div className="space-y-2">
                                             <label htmlFor="" className="text-sm">Rating Label Start</label>
-                                            <Input type="text" name="start" size="sm" onChange={handleStartLabel} />
+                                            <Input type="text" name="start" size="sm" onChange={handleStartLabel} value={pages[active].config.rating_start_label}/>
                                         </div>
                                         <div className="space-y-2">
                                             <label htmlFor="" className="text-sm">Rating Label End</label>
-                                            <Input type="text" name="end" size="sm" onChange={handleEndLabel} />
+                                            <Input type="text" name="end" size="sm" onChange={handleEndLabel} value={pages[active].config.rating_end_label}/>
                                         </div>
                                     </>
                                 )
