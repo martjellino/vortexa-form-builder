@@ -1,8 +1,55 @@
 import { prisma } from '@/utils/prisma'
+import { log } from 'console'
 // import Joi from "joi";
 import { NextResponse } from 'next/server'
 
-// Get list of page
+// Get All Page by Specific Project
+// export async function GET(req) {
+//   const searchParams = req.nextUrl.searchParams;
+//   const projectId = searchParams.get("projectId");
+//   // const page = Number(searchParams.get("page")) || 1;
+//   // const limit = Number(searchParams.get("limit")) || 10;
+
+//   if (!projectId) {
+//     return NextResponse.json(
+//       { errorMessage: "Project ID is not correct" },
+//       { status: 500 }
+//     );
+//   }
+
+//   try {
+//     // const total = await prisma.page.count({ where: { projectId } });
+//     // const totalPage = Math.ceil(total / limit);
+//     const findPages = await prisma.page.findMany({
+//       where: {
+//         projectId: projectId,
+//       },
+//       // take: limit,
+//       // skip: (page - 1) * limit,
+//       include: {
+//         _count: {
+//           select: { responses: true },
+//         },
+//       },
+//     });
+//     return NextResponse.json(
+//       {
+//         data: findPages,
+//         // total,
+//         // totalPage,
+//         // currentPage: page,
+//         // limit,
+//         message: "Successfully Get All Pages By Specific Project!",
+//       },
+//       { status: 200 }
+//     );
+//   } catch (error) {
+//     console.log(error);
+//     return NextResponse.json({ errorMessage: error.message }, { status: 500 });
+//   }
+// }
+
+// Get All Page by Specific Project with pagination
 export async function GET(req) {
   const searchParams = req.nextUrl.searchParams
   const projectId = searchParams.get('projectId')
@@ -20,9 +67,10 @@ export async function GET(req) {
         projectId: projectId,
       },
       include: {
-        _count: {
-          select: { responses: true },
-        },
+        project: true,
+      },
+      orderBy: {
+        createdAt: 'asc',
       },
     })
     return NextResponse.json(
@@ -33,6 +81,7 @@ export async function GET(req) {
       { status: 200 },
     )
   } catch (error) {
+    console.log(error)
     return NextResponse.json({ errorMessage: error.message }, { status: 500 })
   }
 }

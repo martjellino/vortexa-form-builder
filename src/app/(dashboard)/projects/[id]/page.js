@@ -2,7 +2,7 @@ import { Project } from '@/components/project/components/project'
 
 const fetchPage = async (id) => {
   const result = await fetch(
-    `http://localhost:3000/api/v1/pages/?projectId=${id}`,
+    `http://localhost:3000/api/v1/pages/?projectId=${id}&isPage=no`,
     {
       cache: 'no-store',
     },

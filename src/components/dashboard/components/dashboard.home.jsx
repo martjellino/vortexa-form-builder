@@ -4,11 +4,14 @@ import { useProject } from "../hooks/useProject"
 import { Trash2, XCircle, Eye } from "lucide-react"
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
+import { useSetAtom } from "jotai";
+import { activeProject } from "@/jotai/project";
 
 export const DashboardHome = ({listProject}) => {
     const { projects, addProject, submitProject, isEdited, removeProject, handleChange, editProject, cancelEdited, submitEditedProject } = useProject(listProject.data)
     const {user} = useUser()
     const { push } = useRouter()
+    const setActiveProject = useSetAtom(activeProject)
 
     return (
         <div className="my-8 px-20">
@@ -88,7 +91,10 @@ export const DashboardHome = ({listProject}) => {
                                                 }
                                                 {
                                                     !project.edited && !project.existedEdited && (
-                                                        <Eye className="cursor-pointer" onClick={() => {push(`projects/${project.id}`)}}/>
+                                                        <Eye className="cursor-pointer" onClick={() => {
+                                                            setActiveProject(index)
+                                                            push(`projects/${project.id}`)
+                                                        }}/>
                                                     )
                                                 }
                                             </td>

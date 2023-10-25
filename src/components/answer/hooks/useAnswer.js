@@ -1,10 +1,37 @@
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { activePage, pageAtom } from '@/jotai/page'
 import { createId } from '@paralleldrive/cuid2'
+import { useState, useEffect } from 'react'
+import { isFinished, responseAtom } from '@/jotai/response'
 
 export const useAnswer = () => {
-  const active = useAtomValue(activePage)
+  const [active, setActive] = useAtom(activePage)
   const [pages, setPages] = useAtom(pageAtom)
+  const [choicePayload, setChoicePayload] = useState('')
+  const [selected, setSelected] = useState(false)
+  const [ratingChange, setRatingChange] = useState(false)
+  const [response, setResponse] = useAtom(responseAtom)
+  const [rate, setRate] = useState(0)
+  const setIsFinished = useSetAtom(isFinished)
+
+  useEffect(() => {
+    setChoicePayload(response[active]?.answer.key)
+    setRate(response[active]?.answer.rate)
+    if (response[active]?.answer.key) {
+      setSelected(true)
+    }
+    console.log(response[active]?.answer.rate)
+
+    if (response[active]?.answer.rate) {
+      setRatingChange(true)
+    } else {
+      setRatingChange(false)
+    }
+    return () => {
+      setChoicePayload(response[active]?.answer.key)
+      setRate(response[active]?.answer.rate)
+    }
+  }, [active])
 
   const addChoice = () => {
     const currentPage = [...pages]
@@ -36,7 +63,6 @@ export const useAnswer = () => {
       label: 'Choices',
     })
     setPages(currentPage)
-    console.log(currentPage[active])
   }
 
   const removeAnswer = (choiceId) => {
@@ -59,5 +85,74 @@ export const useAnswer = () => {
     setPages(currentPage)
   }
 
-  return { addChoice, pages, active, removeAnswer, setTextAnswer }
+  const selectChoice = (key) => {
+    setChoicePayload(key)
+    setSelected(true)
+  }
+
+  const submitChoice = () => {
+    const currentResponse = [...response]
+    const pageId = pages[active]?.id
+    const payload = {
+      pageId,
+      answer: {
+        key: choicePayload,
+      },
+    }
+    currentResponse.push(payload)
+
+    setResponse(currentResponse)
+    if (pages.length == active + 1) {
+      setIsFinished(true)
+    } else {
+      setActive(active + 1)
+    }
+  }
+
+  const handleSetRate = (num) => {
+    if (rate == num) {
+      setRate(num - 1)
+    } else {
+      setRate(num)
+    }
+    setRatingChange(true)
+  }
+
+  const submitRating = () => {
+    const currentResponse = [...response]
+    const pageId = pages[active]?.id
+    const payload = {
+      pageId,
+      answer: {
+        rate: rate,
+      },
+    }
+
+    currentResponse.push(payload)
+    setResponse(currentResponse)
+
+    if (pages.length == active + 1) {
+      setIsFinished(true)
+    } else {
+      setActive(active + 1)
+    }
+  }
+
+  return {
+    addChoice,
+    pages,
+    active,
+    removeAnswer,
+    setTextAnswer,
+    choicePayload,
+    selectChoice,
+    selected,
+    submitChoice,
+    response,
+    submitRating,
+    rate,
+    handleSetRate,
+    setActive,
+    ratingChange,
+  }
 }

@@ -57,7 +57,6 @@ export const useEditor = () => {
   }
 
   const savePage = async () => {
-    console.log(pages)
     const result = await fetch('http://localhost:3000/api/v1/pages', {
       method: 'PUT',
       cache: 'no-cache',
@@ -66,7 +65,7 @@ export const useEditor = () => {
 
     if (result.status == 200) {
       toast.success('Sucess saving page')
-      router.refresh()
+      location.reload()
     } else {
       toast.error('error submited data')
     }

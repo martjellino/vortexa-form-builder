@@ -1,13 +1,26 @@
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { createId } from '@paralleldrive/cuid2'
+import { useAtom, useAtomValue } from 'jotai'
+import { activePage, pageAtom } from '@/jotai/page'
+import { projectsAtom } from '@/jotai/project'
 
 export const useProject = (initialProjects) => {
   const router = useRouter()
-  const [projects, setProject] = useState(initialProjects)
+  // const [projects, setProject] = useState(initialProjects)
+  const [projects, setProject] = useAtom(projectsAtom)
   const [selectedProject, setSelectedProject] = useState({})
   const [isEdited, setIsEdited] = useState(false)
+  const active = useAtomValue(activePage)
+  const pages = useAtomValue(pageAtom)
+
+  useEffect(() => {
+    setProject(initialProjects)
+    return () => {
+      setProject(initialProjects)
+    }
+  }, [initialProjects])
 
   const addProject = () => {
     setIsEdited(true)
@@ -107,6 +120,27 @@ export const useProject = (initialProjects) => {
     }
   }
 
+  const publishProject = async (id) => {
+    const isPublished = pages[active].project.isPublished
+    const result = await fetch(
+      `http://localhost:3000/api/v1/projects/publish/${id}`,
+      {
+        method: 'PATCH',
+        cache: 'no-store',
+        body: JSON.stringify({
+          isPublished: !isPublished,
+        }),
+      },
+    )
+
+    if (result.status == 200) {
+      toast.success('Project is published!')
+      router.refresh()
+    } else {
+      toast.error('Error publishing')
+    }
+  }
+
   return {
     projects,
     addProject,
@@ -117,5 +151,6 @@ export const useProject = (initialProjects) => {
     editProject,
     cancelEdited,
     submitEditedProject,
+    publishProject,
   }
 }
