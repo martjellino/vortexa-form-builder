@@ -15,5 +15,6 @@ const fetchProject = async (userId) => {
 export default async function Page() {
   const { userId } = auth()
   const data = await fetchProject(userId)
+  console.log(data)
   return <DashboardHome listProject={data} />
 }

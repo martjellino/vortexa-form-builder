@@ -1,4 +1,5 @@
 import { PreviewContent } from '@/components/preview/components/preview.content'
+import { Toaster } from 'react-hot-toast'
 
 async function fetchPage(id) {
   const result = await fetch(
@@ -17,6 +18,7 @@ export default async function Page({ params }) {
   return (
     <div className="flex justify-center">
       <PreviewContent data={data} preview={false} />
+      <Toaster />
     </div>
   )
 }

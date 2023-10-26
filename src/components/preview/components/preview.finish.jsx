@@ -2,19 +2,31 @@ import { isFinished, isPreview, responseAtom } from "@/jotai/response"
 import { Button } from "@nextui-org/react"
 import { useAtom, useAtomValue } from "jotai"
 import { useState } from "react"
+import toast from "react-hot-toast"
 
 export const PreviewFinish = () => {
     const [finished,setFinished] = useAtom(isFinished)
+    const [isLoading, setIsLoading] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const responses = useAtomValue(responseAtom)
     const preview = useAtomValue(isPreview)
 
     const submitAllResponse = async () => {
+        setIsLoading(true)
         if(!preview) {
-            console.log(responses)
-        }
+            const result = await fetch("http://localhost:3000/api/v1/responses",{
+                method: "POST",
+                cache: "no-store",
+                body: JSON.stringify(responses)
+            })
 
-        setIsSubmitted(true)
+            if (result.status == 201) {
+                setIsSubmitted(true)
+            } else {
+                toast.error("Unexpected error!")
+            }
+        }
+        setIsLoading(false)
     }
 
     return (
@@ -25,7 +37,7 @@ export const PreviewFinish = () => {
                         <p className="text-center">You finish filled up form, do you want to submit ?</p>
                         <div className="flex gap-2">
                             <Button color="primary" variant="bordered" onClick={() => setFinished(false)}>Cancel</Button>
-                            <Button color="primary" onClick={submitAllResponse}>Finish</Button>
+                            <Button color="primary" isLoading={isLoading} onClick={submitAllResponse}>Finish</Button>
                         </div>
                     </>
                 ) : (

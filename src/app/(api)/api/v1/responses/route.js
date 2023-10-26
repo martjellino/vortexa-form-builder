@@ -4,9 +4,9 @@ const { NextResponse } = require('next/server')
 // Create Response
 export async function POST(req) {
   try {
-    const { answer, pageId } = await req.json()
+    const body = await req.json()
 
-    if (!answer) {
+    if (!body) {
       return NextResponse.json(
         {
           message: 'Please fill the mandatory columns',
@@ -17,16 +17,17 @@ export async function POST(req) {
       )
     }
 
-    const createResponse = await prisma.response.create({
-      data: {
-        answer: answer,
-        pageId,
-      },
+    body.map(async (data) => {
+      await prisma.response.create({
+        data: {
+          answer: data.answer,
+          pageId: data.pageId,
+        },
+      })
     })
     return NextResponse.json(
       {
-        data: createResponse,
-        message: 'Successfully Create The Response',
+        message: 'Response is submitted',
       },
       {
         status: 201,
