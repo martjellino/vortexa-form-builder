@@ -10,15 +10,15 @@ export const PreviewFinish = () => {
     const preview = useAtomValue(isPreview)
 
     const submitAllResponse = async () => {
-        if(preview) {
-            return 
+        if(!preview) {
+            console.log(responses)
         }
 
         setIsSubmitted(true)
     }
 
     return (
-        <div className={`mt-4 w-[1024px] h-[600px] shadow-md flex flex-col gap-4 justify-center items-center ${isSubmitted ? "bg-primary" : 'bg-white'}`}>
+        <div className={`${preview ? 'w-[1024px] h-[600px] mt-4 ' : 'w-full h-screen'} shadow-md flex flex-col gap-4 justify-center items-center ${isSubmitted ? "bg-primary" : 'bg-white'}`}>
             {
                 !isSubmitted ? (
                     <>

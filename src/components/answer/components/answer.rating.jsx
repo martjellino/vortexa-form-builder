@@ -24,7 +24,7 @@ export const AnswerRating = () => {
                             <>
                                 {
                                     pages[active]?.config.rating_type == "text" ? 
-                                        <div onClick={answered ? () => { handleSetRate(num) } : () => { }} className={`bg-gray-400 bg-opacity-20 border border-gray-400 text-gray-400 font-semibold px-4 py-1 rounded-md ${answered ? 'hover:bg-opacity-40 cursor-pointer' : ''}`}>{num}</div> :
+                                        <div onClick={answered ? () => { handleSetRate(num) } : () => { }} className={`bg-gray-200 bg-opacity-20 border border-gray-400 text-gray-400 font-semibold px-4 py-1 rounded-md ${answered ? 'hover:bg-opacity-40 cursor-pointer' : ''} ${num == rate ? 'bg-gray-400' : ''}`}>{num}</div> :
                                         <StarIcon onClick={answered ? () => { handleSetRate(num) } : () => {}} className={`stroke-gray-400 stroke-3 ${answered ? 'cursor-pointer' : ''} ${num <= rate ? 'fill-gray-400' : ''}`} size={28} /> 
                                 }
                             </>

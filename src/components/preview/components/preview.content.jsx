@@ -13,7 +13,7 @@ export const PreviewContent = ({data, preview}) => {
     const setIsAnswered = useSetAtom(isAnswered)
     const [active,setActive] = useAtom(activePage)
     const finished = useAtomValue(isFinished)
-    const setPreview = useSetAtom(isPreview)
+    const [previewPage,setPreview] = useAtom(isPreview)
 
     useEffect(() => {
         setPages(data)
@@ -24,14 +24,14 @@ export const PreviewContent = ({data, preview}) => {
             setPages([])
             setIsAnswered(false)
             setActive(0)
-            setPreview(preview)
+            setPreview(false)
         };
     }, [data,preview]);
 
     return (
         <>
             {
-                !finished ? <div className="mt-4 w-[1024px] h-[600px] shadow-md bg-white flex flex-col justify-center px-8">
+                !finished ? <div className={`${!previewPage ? 'w-full h-screen px-16' : 'w-[1024px] h-[600px] shadow-md px-8 mt-4 '} bg-white flex flex-col justify-center` }>
                     {
                         pages[active]?.config.is_required && (
                             <p className="text-red-500 italic text-sm">*Required</p>

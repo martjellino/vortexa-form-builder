@@ -20,7 +20,6 @@ export const useAnswer = () => {
     if (response[active]?.answer.key) {
       setSelected(true)
     }
-    console.log(response[active]?.answer.rate)
 
     if (response[active]?.answer.rate) {
       setRatingChange(true)

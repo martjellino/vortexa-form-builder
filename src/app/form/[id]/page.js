@@ -16,7 +16,7 @@ export default async function Page({ params }) {
   const { data } = await fetchPage(id)
   return (
     <div className="flex justify-center">
-      <PreviewContent data={data} preview={true}/>
+      <PreviewContent data={data} preview={false} />
     </div>
   )
 }
