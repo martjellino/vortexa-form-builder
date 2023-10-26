@@ -86,7 +86,7 @@ export const DashboardHome = ({ listProject }) => {
                           />
                         )}
                       </th>
-                      <td className="px-6 py-4">{project._count.pages ?? 0}</td>
+                      {/* <td className="px-6 py-4">{project._count.pages ?? 0}</td> */}
                       <td className="px-6 py-4">{project.total_responses}</td>
                       <td className="px-6 py-4">{project.createdAt}</td>
                       <td className="px-6 py-4">{project.updatedAt}</td>
