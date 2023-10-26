@@ -1,3 +1,4 @@
+import { API_URL } from "@/config/url"
 import { isFinished, isPreview, responseAtom } from "@/jotai/response"
 import { Button } from "@nextui-org/react"
 import { useAtom, useAtomValue } from "jotai"
@@ -14,7 +15,7 @@ export const PreviewFinish = () => {
     const submitAllResponse = async () => {
         setIsLoading(true)
         if(!preview) {
-            const result = await fetch("http://localhost:3000/api/v1/responses",{
+            const result = await fetch(`${API_URL}/api/v1/responses`,{
                 method: "POST",
                 cache: "no-store",
                 body: JSON.stringify(responses)
