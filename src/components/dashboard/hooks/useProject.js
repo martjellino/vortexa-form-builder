@@ -118,21 +118,19 @@ export const useProject = (initialProjects) => {
     } else {
       currentProject[id].existedEdited = false
       setProject(currentProject)
+      setIsEdited(false)
     }
   }
 
   const publishProject = async (id) => {
     const isPublished = pages[active].project.isPublished
-    const result = await fetch(
-      `${API_URL}/api/v1/projects/publish/${id}`,
-      {
-        method: 'PATCH',
-        cache: 'no-store',
-        body: JSON.stringify({
-          isPublished: !isPublished,
-        }),
-      },
-    )
+    const result = await fetch(`${API_URL}/api/v1/projects/publish/${id}`, {
+      method: 'PATCH',
+      cache: 'no-store',
+      body: JSON.stringify({
+        isPublished: !isPublished,
+      }),
+    })
 
     if (result.status == 200) {
       toast.success('Project is published!')

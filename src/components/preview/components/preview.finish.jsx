@@ -26,6 +26,8 @@ export const PreviewFinish = () => {
             } else {
                 toast.error("Unexpected error!")
             }
+        } else {
+            setIsSubmitted(true)
         }
         setIsLoading(false)
     }
