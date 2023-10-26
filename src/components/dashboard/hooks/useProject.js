@@ -5,6 +5,7 @@ import { createId } from '@paralleldrive/cuid2'
 import { useAtom, useAtomValue } from 'jotai'
 import { activePage, pageAtom } from '@/jotai/page'
 import { projectsAtom } from '@/jotai/project'
+import { API_URL } from '@/config/url'
 
 export const useProject = (initialProjects) => {
   const router = useRouter()
@@ -123,7 +124,7 @@ export const useProject = (initialProjects) => {
   const publishProject = async (id) => {
     const isPublished = pages[active].project.isPublished
     const result = await fetch(
-      `http://localhost:3000/api/v1/projects/publish/${id}`,
+      `${API_URL}/api/v1/projects/publish/${id}`,
       {
         method: 'PATCH',
         cache: 'no-store',

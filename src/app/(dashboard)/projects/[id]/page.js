@@ -1,8 +1,9 @@
 import { Project } from '@/components/project/components/project'
+import { API_URL } from '@/config/url'
 
 const fetchPage = async (id) => {
   const result = await fetch(
-    `http://localhost:3000/api/v1/pages/?projectId=${id}&isPage=no`,
+    `${API_URL}/api/v1/pages/?projectId=${id}&isPage=no`,
     {
       cache: 'no-store',
     },
