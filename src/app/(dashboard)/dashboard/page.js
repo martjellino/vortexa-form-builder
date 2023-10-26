@@ -1,9 +1,11 @@
 import { DashboardHome } from '@/components/dashboard/components/dashboard.home'
+import { API_URL } from '@/config/url'
 import { auth } from '@clerk/nextjs'
+
 
 const fetchProject = async (userId) => {
   const request = await fetch(
-    `http://localhost:3000/api/v1/projects?authorId=${userId}`,
+    `${API_URL}/api/v1/projects?authorId=${userId}`,
     {
       cache: 'no-store',
     },

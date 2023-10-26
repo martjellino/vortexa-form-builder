@@ -1,4 +1,5 @@
 "use client"
+import { API_URL } from "@/config/url"
 import { pageAtom, activePage, currentProjectId } from "@/jotai/page"
 import { defaultPage } from "@/types/defaultPage"
 import { Button } from "@nextui-org/react"
@@ -13,7 +14,7 @@ export const ProjectPage = () => {
 
     const createPage = async () => {
         defaultPage.projectId = projectId
-        const result = await fetch("http://localhost:3000/api/v1/pages",{
+        const result = await fetch(`${API_URL}/api/v1/pages`,{
             method: "POST",
             cache: "no-store",
             body: JSON.stringify(defaultPage)
@@ -30,7 +31,7 @@ export const ProjectPage = () => {
     }
 
     const removePage = async (pageId) => {
-        const result = await fetch(`http://localhost:3000/api/v1/pages/${pageId}`,{
+        const result = await fetch(`${API_URL}/api/v1/pages/${pageId}`,{
             method: "DELETE",
             cache: "no-store"
         })

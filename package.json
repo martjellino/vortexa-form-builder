@@ -16,7 +16,7 @@
     "@prisma/client": "^5.4.1",
     "framer-motion": "^10.16.4",
     "joi": "^17.11.0",
-    "jose": "^4.15.2",
+    "jose": "^4.15.4",
     "jotai": "^2.4.3",
     "lucide-react": "^0.288.0",
     "next": "13.5.4",

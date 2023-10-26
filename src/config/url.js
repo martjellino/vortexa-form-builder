@@ -1,0 +1,1 @@
+export const API_URL = process.env.NODE_ENV === "production" ? "https://vortexa-form-builder.vercel.app/" : "http://localhost:3000/"

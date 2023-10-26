@@ -87,7 +87,7 @@ export const AuthLogin = () => {
         </button>
         <p className="text-sm text-center p-6">
           Don't have an account ?&nbsp;
-          <Link href="" className="font-bold underline">
+          <Link href="/register" className="font-bold underline">
             Register
           </Link>
         </p>

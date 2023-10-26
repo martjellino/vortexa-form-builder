@@ -2,6 +2,7 @@ import { useAtom, useAtomValue } from 'jotai'
 import { activePage, pageAtom } from '@/jotai/page'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import { API_URL } from '@/config/url'
 
 export const useEditor = () => {
   const active = useAtomValue(activePage)
@@ -57,7 +58,7 @@ export const useEditor = () => {
   }
 
   const savePage = async () => {
-    const result = await fetch('http://localhost:3000/api/v1/pages', {
+    const result = await fetch(`${API_URL}/api/v1/pages`, {
       method: 'PUT',
       cache: 'no-cache',
       body: JSON.stringify(pages),

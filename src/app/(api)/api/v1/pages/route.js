@@ -68,6 +68,9 @@ export async function GET(req) {
       },
       include: {
         project: true,
+        // _count: {
+        //   select: { responses: true}
+        // }
       },
       orderBy: {
         createdAt: 'asc',

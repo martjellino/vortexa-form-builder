@@ -121,7 +121,7 @@ export const AuthRegister = () => {
         </button>
         <p className="text-sm text-center p-6">
           Already have an account ?&nbsp;
-          <Link href="" className="font-bold underline">
+          <Link href="/login" className="font-bold underline">
             Login
           </Link>
         </p>

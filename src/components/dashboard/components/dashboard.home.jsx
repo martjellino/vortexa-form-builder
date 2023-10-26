@@ -1,27 +1,37 @@
-"use client"
-import { Button,Input } from "@nextui-org/react"
-import { useProject } from "../hooks/useProject"
-import { Trash2, XCircle, Eye } from "lucide-react"
+"use client";
+import { Button, Input } from "@nextui-org/react";
+import { useProject } from "../hooks/useProject";
+import { Trash2, XCircle, Eye } from "lucide-react";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useSetAtom } from "jotai";
 import { activeProject } from "@/jotai/project";
 
-export const DashboardHome = ({listProject}) => {
-    const { projects, addProject, submitProject, isEdited, removeProject, handleChange, editProject, cancelEdited, submitEditedProject } = useProject(listProject.data)
-    const {user} = useUser()
-    const { push } = useRouter()
-    const setActiveProject = useSetAtom(activeProject)
+export const DashboardHome = ({ listProject }) => {
+  const {
+    projects,
+    addProject,
+    submitProject,
+    isEdited,
+    removeProject,
+    handleChange,
+    editProject,
+    cancelEdited,
+    submitEditedProject,
+  } = useProject(listProject.data);
+  const { user } = useUser();
+  const { push } = useRouter();
+  const setActiveProject = useSetAtom(activeProject);
 
-    return (
-        <div className="my-8 px-20">
-            <div className="flex justify-between items-center">
-                <h1 className="text-lg">My Projects</h1>
-                <Button isDisabled={isEdited} color="primary" onClick={addProject}>
-                    + Create new project
-                </Button>
-            </div>
-            <hr className="h-px my-4 bg-gray-300 border-0"></hr>
+  return (
+    <div className="my-8 px-20">
+      <div className="flex justify-between items-center">
+        <h1 className="text-lg">My Projects</h1>
+        <Button isDisabled={isEdited} color="primary" onClick={addProject}>
+          + Create new project
+        </Button>
+      </div>
+      <hr className="h-px my-4 bg-gray-300 border-0"></hr>
 
             <div className="bg-white p-4 shadow-md rounded-md">
                 <div className="relative overflow-x-auto sm:rounded-lg">
