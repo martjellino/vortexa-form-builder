@@ -66,7 +66,7 @@ export const useEditor = () => {
 
     if (result.status == 200) {
       toast.success('Sucess saving page')
-      location.reload()
+      router.refresh()
     } else {
       toast.error('error submited data')
     }
