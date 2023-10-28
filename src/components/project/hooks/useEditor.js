@@ -60,13 +60,13 @@ export const useEditor = () => {
   const savePage = async () => {
     const result = await fetch(`${API_URL}/api/v1/pages`, {
       method: 'PUT',
-      cache: 'no-store',
+      cache: 'no-cache',
       body: JSON.stringify(pages),
     })
 
     if (result.status == 200) {
       toast.success('Sucess saving page')
-      router.refresh()
+      window.location.reload()
     } else {
       toast.error('error submited data')
     }
