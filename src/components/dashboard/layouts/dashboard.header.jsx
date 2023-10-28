@@ -1,5 +1,5 @@
 "use client"
-import { UserButton } from '@clerk/nextjs'
+import { UserButton, useUser } from '@clerk/nextjs'
 import {
     Dropdown,
     DropdownTrigger,
@@ -30,7 +30,9 @@ export const DashboardHeader = () => {
     
     return (
         <div className="w-full bg-white py-4 px-8 flex justify-between items-center shadow-sm">
-            <h1 className="text-xl font-bold">Vortexa.</h1>
+            <Link href='/dashboard'>
+                <h1 className="text-xl font-bold">Vortexa.</h1>
+            </Link>
             {
                 pathname.startsWith("/projects") && !pathname.startsWith("/projects/preview") ? (
                     <NavbarLink/> 

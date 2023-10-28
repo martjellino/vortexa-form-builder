@@ -5,11 +5,12 @@ import Image from "next/image";
 
 import landingPagePicture from "../../../../public/landing-page.svg";
 import Link from "next/link";
+import { UserButton, useUser } from "@clerk/nextjs";
 
 export const Home = () => {
+  const {isSignedIn} = useUser()
   return (
     <div>
-      {/* Vortexa and Sign Up */}
       <div className="mt-8 grid grid-cols-12 gap-4">
         <div className="col-span-1 ml-8">
           <Link href={"/"}>
@@ -28,11 +29,22 @@ export const Home = () => {
           </Link>
         </div>
         <div className="col-span-11 flex justify-end mr-8">
-          <Link href={"/register"}>
-            <Button color="primary" className="px-10">
-              Sign Up
-            </Button>
-          </Link>
+          {
+            !isSignedIn ? (
+              <Link href={"/login"}>
+                <Button color="primary" className="px-10">
+                  Sign In
+                </Button>
+              </Link>
+            ) : (
+              <div className="flex gap-4 items-center">
+                <Link href="/dashboard">
+                  <Button color="primary">Go to Dashboard</Button>
+                </Link>
+                <UserButton afterSignOutUrl="/"/>
+              </div>
+            )
+          }
         </div>
       </div>
       {/* powerful forms */}
