@@ -3,7 +3,7 @@ import { DashboardHeader } from "./dashboard.header"
 
 export const DashboardLayout = ({children}) => {
     return (
-        <div className="h-full min-h-screen bg-secondary">
+        <div className="h-auto min-h-screen bg-secondary">
             <DashboardHeader/>
             {children}
             <Toaster/>

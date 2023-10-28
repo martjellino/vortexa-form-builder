@@ -5,3 +5,5 @@ export const responseAtom = atom([])
 export const isFinished = atom(false)
 
 export const isPreview = atom(false)
+
+export const isResult = atom(false)

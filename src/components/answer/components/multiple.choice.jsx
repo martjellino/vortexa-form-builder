@@ -25,7 +25,7 @@ export const MultipleChoice = () => {
                             return (
                                 <div key={choice.id} className={
                                     `bg-gray-400 font-semibold bg-opacity-20 text-gray-400 w-fit px-4 py-2 rounded-md cursor-pointer flex justify-between gap-2 ${!answered ? '' : 'hover:bg-gray-300'}`
-                                } onClick={answered ? () => {selectChoice(choice.key)} : () => {}}>
+                                } onClick={answered ? () => {selectChoice(choice.key,choice.label)} : () => {}}>
                                     <div className="flex gap-2">
                                         {choice.key}. {
                                             !answered ? <ContentEditable onChange={(e) => setTextAnswer(index, e)} html={choice.label} tagName="article" className="focus:outline-none" /> : <p>{choice.label}</p>
@@ -35,7 +35,7 @@ export const MultipleChoice = () => {
                                         !answered && <XCircle onClick={() => removeAnswer(choice.id)} />
                                     }
                                     {
-                                        answered && choicePayload == choice.key ? <Check/> : <></>
+                                        answered && choicePayload?.key == choice.key ? <Check/> : <></>
                                     }
                                 </div>
                             )

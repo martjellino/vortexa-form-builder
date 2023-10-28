@@ -12,6 +12,7 @@ import { useAtomValue } from 'jotai'
 import { activePage, currentProjectId, pageAtom } from '@/jotai/page'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
+import { NavbarLink } from '../components/navbar.link'
 
 export const DashboardHeader = () => {
     const pathname = usePathname()
@@ -28,8 +29,13 @@ export const DashboardHeader = () => {
     }
     
     return (
-        <div className="w-full bg-white py-4 px-8 flex justify-between shadow-sm">
+        <div className="w-full bg-white py-4 px-8 flex justify-between items-center shadow-sm">
             <h1 className="text-xl font-bold">Vortexa.</h1>
+            {
+                pathname.startsWith("/projects") && !pathname.startsWith("/projects/preview") ? (
+                    <NavbarLink/> 
+                ) : <></>
+            }
             <div className="flex gap-4 items-center">
                 {
                     pathname.startsWith("/projects") && !pathname.startsWith("/projects/preview") ? (
@@ -39,7 +45,7 @@ export const DashboardHeader = () => {
                                     pages[0]?.project.isPublished ? 'Unpublish' : 'Publish'
                                 }
                             </Button>
-                            <Button as={Link} href={`preview/${projectId}`} color='primary' size='sm'>Preview</Button>
+                            <Button as={Link} href={`/projects/preview/${projectId}`} color='primary' size='sm'>Preview</Button>
                             <Dropdown backdrop='blur'>
                                 <DropdownTrigger>
                                     <Share2 className='cursor-pointer' />

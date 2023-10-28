@@ -21,6 +21,8 @@ export const PreviewFinish = () => {
                 body: JSON.stringify(responses)
             })
 
+            console.log(await result.json())
+
             if (result.status == 201) {
                 setIsSubmitted(true)
             } else {

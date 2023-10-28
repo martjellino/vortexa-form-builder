@@ -85,21 +85,8 @@ export const ProjectEditor = () => {
                 <h1 className="text-sm font-medium">Themes</h1>
                 <hr className="h-px mt-2 bg-gray-300 border-0"></hr>
                 <div className="space-y-6 mt-4">
-                    <div className="flex items-center relative justify-between">
-                        <label htmlFor="" className="text-sm">Background</label>
-                        {/* <div className="w-6 h-6 rounded-md bg-black cursor-pointer"></div> */}
-                        <div className="absolute top-8 left-10">
-                            {/* <HexColorPicker/>
-                            <HexColorInput/> */}
-                        </div>
-                    </div>
-                    <div className="flex justify-between">
-                        <label htmlFor="" className="text-sm">Question</label>
-                        
-                    </div>
-                    <div className="flex justify-between">
-                        <label htmlFor="" className="text-sm">Answer</label>
-                        
+                    <div className="px-4 py-2 bg-yellow-50 text-sm text-yellow-400 font-semibold">
+                        This feature is currently under development. We continue to update our platform.
                     </div>
                 </div>
             </div>

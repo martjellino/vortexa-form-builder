@@ -7,7 +7,10 @@ import { isFinished, responseAtom } from '@/jotai/response'
 export const useAnswer = () => {
   const [active, setActive] = useAtom(activePage)
   const [pages, setPages] = useAtom(pageAtom)
-  const [choicePayload, setChoicePayload] = useState('')
+  const [choicePayload, setChoicePayload] = useState({
+    key: '',
+    label: '',
+  })
   const [selected, setSelected] = useState(false)
   const [ratingChange, setRatingChange] = useState(false)
   const [response, setResponse] = useAtom(responseAtom)
@@ -84,8 +87,11 @@ export const useAnswer = () => {
     setPages(currentPage)
   }
 
-  const selectChoice = (key) => {
-    setChoicePayload(key)
+  const selectChoice = (key, label) => {
+    setChoicePayload({
+      key: key,
+      label: label,
+    })
     setSelected(true)
   }
 
@@ -95,7 +101,8 @@ export const useAnswer = () => {
     const payload = {
       pageId,
       answer: {
-        key: choicePayload,
+        key: choicePayload.key,
+        label: choicePayload.label,
       },
     }
     currentResponse.push(payload)
