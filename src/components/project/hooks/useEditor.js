@@ -60,7 +60,7 @@ export const useEditor = () => {
   const savePage = async () => {
     const result = await fetch(`${API_URL}/api/v1/pages`, {
       method: 'PUT',
-      cache: 'no-cache',
+      cache: 'no-store',
       body: JSON.stringify(pages),
     })
 
